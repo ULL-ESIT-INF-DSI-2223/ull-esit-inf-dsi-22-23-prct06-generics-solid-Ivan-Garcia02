@@ -1,6 +1,3 @@
-/*
-La segunda deberá modelar una colección de cadenas de caracteres en la que el método search deberá poder 
-buscar una subcadena y devolverá un array con todas las cadenas de la colección que contengan dicha subcadena.*/
 import { SearchableCollection } from "./searchableCollection";
 
 export class StringSearchableCollection extends SearchableCollection<string> {

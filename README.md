@@ -466,3 +466,129 @@ Para ello, pasamos por parámetro un *callback*, correspondiente a la función a
 Por problemas de tiempo no he podido realizar la implementación de este ejercicio.
 
 ## Ejercicio Modificación
+Para este ejercicio teníamos que diseñar una clase genérica abstracta que sirviera de colección de elementos. Para ello lo primero que hicimos fue definir dos interfaces genéricas, `Collectable<T>` y `Searchable<T>`, estas van a contener los métodos que deberan implemetar las clases que las incluyan para añadir, eliminar y obtener elementos de la colección, el número de elementos de la colección y buscar un elemento en la coleción.
+```typescript
+export interface Collectable<T> {
+  addItem(item: T): void;
+  getItem(index: number): T | undefined;
+  removeItem(index: number): T | undefined;
+  getNumberOfItems(): number;
+}
+```
+```typescript
+export interface Searchable<T> {
+  search(item: T): T[];
+}
+```
+
+A continuación, creamos la clase abstracta genérica `SearchableCollection`, que implementara las interfaces anteriormente descritas. El único elemento de esta clase será un array de elemento de tipo `T`.
+```typescript
+export abstract class SearchableCollection<T> implements Collectable<T>, Searchable<T> {
+  private _collection: T[];
+
+  constructor(collection: T[]) {
+    this._collection = collection;
+  }
+
+  /** Getter del atributo collection */
+  get collection() {
+    return this._collection;
+  }
+  /** Setter del atributo collection */
+  set collection(collection: T[]) {
+    this.collection = collection;
+  }
+```
+
+Como la implementación de los métodos incluidos en la interfaz `Collectable<T>` es común para cualquier dato `T`, las definimos en la clase abstracta.
+
+El primer método será `addItem`, que insertará un elemento a la coleccion, haciendo uso del método `push` de *array*.
+```typescript
+  addItem(item: T): void {
+    this._collection.push(item);
+  }
+```
+
+El segundo método `getItem`, que devolverá un elemento de la coleccion. Comprobará que el índice este dentro del rango de la colección y devolvera el elemento haciendo uso del operador `[]`.
+```typescript
+  getItem(index: number): T | undefined{
+    if (index >= 0 && index < this._collection.length) {
+      return this._collection[index];
+    }
+    return undefined;
+  }
+```
+
+El tercer método `removeItem`, eliminara un elemento de la coleccion, según un índice. Para ello haciendo uso de una lista auxiliar copia todos los elemento donde el indice no sea igual al introducido por parametros. Y actualiza la lista con esa lista auxiliar.
+```typescript
+  removeItem(index: number): T | undefined{
+    if (index >= 0 && index < this._collection.length) {
+      let collectionAux: T[] = [];
+      this._collection.forEach((item: T, indexReal: number) => {
+        if (indexReal - 1 != index) {
+          collectionAux.push(item);
+        }
+      })
+      this._collection = collectionAux;
+      //this._collection.splice(index)
+      return this._collection[index];
+    }
+    return undefined;
+  }
+```
+
+El último método `getNumberItems`, devuelve el número de elementos de la coleccion, haciendo uso del metodo `length` de *array*.
+```typescript
+  getNumberOfItems(): number {
+    return this._collection.length
+  }
+```
+
+Con respecto a la implementación del método de busqueda, debe ser implementado en las clase concretas, por lo que declaramos los metodos como abstractos.
+```typescript
+  abstract search(item: T): T[];
+}
+```
+
+A continuación, pasamos a describir las clase concretas, `NumericSearchableCollection` y `StringSearchableCollection`, que usaremos de colecciones de números y de cadenas de texto respectivamente. Ambas heredan de la clase `SearchableCollection` e implementan su propio método `search` que es prácticamente igual para ambas.
+```typescript
+export class NumericSearchableCollection extends SearchableCollection<number> {
+  
+  constructor(collection: number[]) {
+    super(collection);
+  }
+}
+```
+```typescript
+export class StringSearchableCollection extends SearchableCollection<string> {
+  constructor(collection: string[]) {
+    super(collection);
+  }
+}
+```
+
+Para el método `search` en ambas clases, recibe un elemento de tipo `T` y busca si esta en la coleccion. Para ello recorre toda la colección elemento a elemento en un bucle `forEach` y si coincide con el parametro a buscar lo introduce en una lista con los aciertos, para retornar.
+```typescript 
+  search(item: number): number[] {
+    let collectionAux: number[] = [];
+    this.collection.forEach((itemReal: number) => {
+      if (itemReal == item) {
+        collectionAux.push(item);
+      }
+    })
+
+    return collectionAux;
+  }
+```
+```typescript 
+  search(item: string): string[] {
+    let collectionAux: string[] = [];
+    this.collection.forEach((itemReal: string) => {
+      if (itemReal == item) {
+        collectionAux.push(item);
+      }
+    })
+
+    return collectionAux;
+  }
+```
