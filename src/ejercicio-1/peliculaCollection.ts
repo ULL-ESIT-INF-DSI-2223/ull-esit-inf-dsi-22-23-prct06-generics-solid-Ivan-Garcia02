@@ -65,17 +65,3 @@ export class PeliculaCollection extends BasicStreamableCollection<Pelicula> {
     return resultadoBusqueda;
   }
 }
-
-let peli1 = new Pelicula('jota', 1568, 'spliege', ['miedo', "gracia"], 120, ['brad']);
-let peli2 = new Pelicula('kala', 1568, 'spliege', ['terror'], 120, ['brad']);
-let coleccion = new PeliculaCollection([peli1, peli2]);
-//console.log(coleccion.buscarPorAño(1568));
-//console.log(coleccion.buscarPorGenero('miedo'));
-//console.log(coleccion.buscarPorNombre('kala'));
-//console.log(coleccion.buscarPorDirector('spliege'));
-
-/*coleccion.añadirElemento(peli1);
-console.log(coleccion);*/
-
-//console.log(coleccion.eliminarElemento('jota'));
-//console.log(coleccion.buscarPorActores('brad'));

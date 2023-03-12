@@ -49,7 +49,7 @@ export class DocumentalCollection extends BasicStreamableCollection<Documental> 
    * @param tiempo Duracion del documental
    * @returns una lista con los documentales que duran lo indicado en la busqueda
    */
-   buscarPorDuracion(tiempo: number) : Documental[] {
+  buscarPorDuracion(tiempo: number) : Documental[] {
     let resultadoBusqueda: Documental[] = [];
 
     this.coleccion.forEach((docu: Documental) => {
