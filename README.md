@@ -466,7 +466,7 @@ Para ello, pasamos por parámetro un *callback*, correspondiente a la función a
 Por problemas de tiempo no he podido realizar la implementación de este ejercicio.
 
 ## Ejercicio Modificación
-Para este ejercicio teníamos que diseñar una clase genérica abstracta que sirviera de colección de elementos. Para ello lo primero que hicimos fue definir dos interfaces genéricas, `Collectable<T>` y `Searchable<T>`, estas van a contener los métodos que deberan implemetar las clases que las incluyan para añadir, eliminar y obtener elementos de la colección, el número de elementos de la colección y buscar un elemento en la coleción.
+Para este ejercicio teníamos que diseñar una clase genérica abstracta que sirviera de colección de elementos. Para ello lo primero que hicimos fue definir dos interfaces genéricas, `Collectable<T>` y `Searchable<T>`, estas van a contener los métodos que deberán implementar las clases que las incluyan para añadir, eliminar y obtener elementos de la colección, el número de elementos de la colección y buscar un elemento en la colección.
 ```typescript
 export interface Collectable<T> {
   addItem(item: T): void;
@@ -509,7 +509,7 @@ El primer método será `addItem`, que insertará un elemento a la coleccion, ha
   }
 ```
 
-El segundo método `getItem`, que devolverá un elemento de la coleccion. Comprobará que el índice este dentro del rango de la colección y devolvera el elemento haciendo uso del operador `[]`.
+El segundo método `getItem`, que devolverá un elemento de la colección. Comprobará que el índice este dentro del rango de la colección y devolverá el elemento haciendo uso del operador `[]`.
 ```typescript
   getItem(index: number): T | undefined{
     if (index >= 0 && index < this._collection.length) {
@@ -519,7 +519,7 @@ El segundo método `getItem`, que devolverá un elemento de la coleccion. Compro
   }
 ```
 
-El tercer método `removeItem`, eliminara un elemento de la coleccion, según un índice. Para ello haciendo uso de una lista auxiliar copia todos los elemento donde el indice no sea igual al introducido por parametros. Y actualiza la lista con esa lista auxiliar.
+El tercer método `removeItem`, eliminará un elemento de la colección, según un índice. Para ello, haciendo uso de una lista auxiliar, copia todos los elemento donde el índice no sea igual al introducido por parámetros. Y actualiza la lista con esa lista auxiliar.
 ```typescript
   removeItem(index: number): T | undefined{
     if (index >= 0 && index < this._collection.length) {
@@ -537,20 +537,20 @@ El tercer método `removeItem`, eliminara un elemento de la coleccion, según un
   }
 ```
 
-El último método `getNumberItems`, devuelve el número de elementos de la coleccion, haciendo uso del metodo `length` de *array*.
+El último método `getNumberItems`, devuelve el número de elementos de la colección, haciendo uso del método `length` de *array*.
 ```typescript
   getNumberOfItems(): number {
     return this._collection.length
   }
 ```
 
-Con respecto a la implementación del método de busqueda, debe ser implementado en las clase concretas, por lo que declaramos los metodos como abstractos.
+Con respecto a la implementación del método de búsqueda, debe ser implementado en las clases concretas, por lo que declaramos los métodos como abstractos.
 ```typescript
   abstract search(item: T): T[];
 }
 ```
 
-A continuación, pasamos a describir las clase concretas, `NumericSearchableCollection` y `StringSearchableCollection`, que usaremos de colecciones de números y de cadenas de texto respectivamente. Ambas heredan de la clase `SearchableCollection` e implementan su propio método `search` que es prácticamente igual para ambas.
+A continuación, pasamos a describir las clases concretas, `NumericSearchableCollection` y `StringSearchableCollection`, que usaremos de colecciones de números y de cadenas de texto respectivamente. Ambas heredan de la clase `SearchableCollection` e implementan su propio método `search` que es prácticamente igual para ambas.
 ```typescript
 export class NumericSearchableCollection extends SearchableCollection<number> {
   
@@ -567,7 +567,7 @@ export class StringSearchableCollection extends SearchableCollection<string> {
 }
 ```
 
-Para el método `search` en ambas clases, recibe un elemento de tipo `T` y busca si esta en la coleccion. Para ello recorre toda la colección elemento a elemento en un bucle `forEach` y si coincide con el parametro a buscar lo introduce en una lista con los aciertos, para retornar.
+Para el método `search` en ambas clases, recibe un elemento de tipo `T` y busca si está en la colección. Para ello recorre toda la colección elemento a elemento en un bucle `forEach` y si coincide con el parámetro a buscar, lo introduce en una lista con los aciertos, para retornar.
 ```typescript 
   search(item: number): number[] {
     let collectionAux: number[] = [];
@@ -596,7 +596,7 @@ Para el método `search` en ambas clases, recibe un elemento de tipo `T` y busca
 ## Conclusiones
 En esta práctica hemos realizado varios ejercicios con los que hemos practicado los conceptos explicados en clase, clases e interfaces genéricas en TypeScript, además de los principios SOLID.
 
-En concreto, he practicado más profundamente la herencia entre clases abstractas genericas, las propiedades de los atributos como *protected* o *readonly*. Y el cubrimiento de código con la heramienta Coveralls.
+En concreto, he practicado más profundamente la herencia entre clases abstractas genéricas, las propiedades de los atributos como *protected* o *readonly*. Y el cubrimiento de código con la herramienta Coveralls.
 
 ## Bibliografía
 - [Guion de la práctica](https://ull-esit-inf-dsi-2223.github.io/prct06-generics-solid/)
