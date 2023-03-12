@@ -53,7 +53,7 @@ export class PeliculaCollection extends BasicStreamableCollection<Pelicula> {
    * @param actor Actor/actriz a buscar 
    * @returns una lista con las pelis con el/la actor/atriz indicado/a en la busqueda
    */
-  buscarPorActores(actor: string) : Pelicula[] {
+  buscarPorActor(actor: string) : Pelicula[] {
     let resultadoBusqueda: Pelicula[] = [];
 
     this.coleccion.forEach((peli: Pelicula) => {
