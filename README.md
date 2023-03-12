@@ -7,11 +7,10 @@
 ## Índice
 - [Objetivos](#objetivos-de-la-práctica)
 - [Ejercicios propuestos](#ejercicios-propuestos)
-  - [Ejercicio 1]()
-  - [Ejercicio 2]()
-  - [Ejercicio 3]()
-- [Ejercicios modificación](#ejercicios-modificación)
-  - [Ejercicio 1]()
+  - [Ejercicio 1](#ejercicio-1---dsiflix)
+  - [Ejercicio 2](#ejercicio-2---implementación-de-una-lista-y-sus-operaciones)
+  - [Ejercicio 3](#ejercicio-3---ampliando-la-biblioteca-musical)
+- [Ejercicios modificación](#ejercicio-modificación)
 - [Conclusiones](#conclusiones)
 - [Bibliografía](#bibliografía)
 
@@ -327,3 +326,143 @@ Al igual que en la anterior clase concreta, definimos dos nuevos métodos de bus
     return resultadoBusqueda;
   }
 ```
+
+
+### Ejercicio 2 - Implementación de una lista y sus operaciones
+Para este ejercicio hemos implementado una clase generica `Lista<T>`, que modela una lista de elementos de cualquier tipo, para ello los atributos de la clase seran, `lista` que tendra los elemento de tipo T, y `tamaño` que sera el tamaño del array, que obtendremos con el uso de el método `length`, esta es la unica vez que usaremos un método de *Array.prototype*, ya que no vi otra forma de averiguar el tamaño, ya que si usamos, mientras no sea *undefined*, puede existir la posiblidad de que un elemento de dentro sea *undefined*.
+```typescript
+export class Lista<T> {
+  private _lista: T[];
+  private _tamaño: number;
+
+  constructor(lista: T[]) {
+    this._lista = lista;
+    this._tamaño = lista.length; // Hacemos uso de length, ya que anque hagamos un bucle while not undefined, podria contener un undefined.
+  }
+
+  /** Getter del atributo lista */
+  get lista() {
+    return this._lista;
+  }
+  /** Setter del atributo lista, que obtiene tambien el tamaño */
+  set lista(lista: T[]) {
+    this._lista = lista;
+    this._tamaño = lista.length;
+  }
+
+  /** Getter del tamaño */
+  get tamaño() {
+    return this._tamaño;
+  }
+```
+
+El primer método que implementamos es `append` que recibe añadira al final de la lista que lo llame, una segunda lista que se pasa por parametro. 
+Para ello se va al final de la primera lista y añade con el operador `[]` individualmente todos los elementos de la otra lista.
+```typescript
+  append(segundaLista: Lista<T>) {
+    for (let i = this.tamaño, j = 0; j < segundaLista.tamaño; i++, j++) {
+      this.lista[i] = segundaLista.lista[j];
+    }
+
+    this._tamaño += segundaLista.tamaño;
+  }
+```
+
+El segundo método `concatenate`, concatena la lista con la que el método es llamada + un número variable de listas pasadas por parametro.
+Para ello inserta individualmente los elementos de la lista que lo llama, y a continuación al final de la lista que resulta vamos añadiendo todas las listas una por una, añadiendo sus elementos uno por uno con el operador `[]`.
+```typescript
+  concatenate(...lists: Lista<T>[]) {
+    let conjListas: T[] = [];
+    for (let i = 0; i < this._tamaño; i++) {
+      conjListas[i] = this._lista[i];
+    }
+
+    for (let i = 0, k = this._tamaño; i < lists.length; i++) {
+      for (let j = 0; j < lists[i].tamaño; j++, k++) {
+        conjListas[k] = lists[i].lista[j];
+      }
+    }
+
+    return new Lista<T>(conjListas);
+  }
+```
+
+El tercer método `filter`, a partir de una lista y un predicado logico, si se cumple el predicado se añade a una nueva lista los elementos que cumplen la condición. 
+Para ello, pasamos por parametro un *callback*, correspondiente al predicado lógico a cumplir. Y en un bucle cuando se cumpla la condición del predicado lógico, añadimos el elemento a una nueva lista con el operador `[]`.
+```typescript
+  filter(predicado: (elemento: T) => boolean) {
+    let nuevaLista: T[] = [];
+
+    for (let i = 0, k = 0; i < this._tamaño; i++) {
+      if (predicado(this._lista[i])) {
+        nuevaLista[k] = this._lista[i];
+        k++;
+      }
+    } 
+
+    return new Lista<T>(nuevaLista);
+  }
+```
+
+El cuarto método `length`, devuelve el número de elementos de la lista. Para ello retorna el atributo de la clase `_tamallo`.
+```typescript
+  length() {
+    return this._tamaño;
+  }
+```
+
+El quinto método `map`, modifica una lista según una función recibida por parametro. 
+Para ello, pasamos por parametro un *callback*, correspondiente a la función modificadora. Y en un bucle, llamamos a la función con cada elemento y vamos añadimos el elemento a una nueva lista con el operador `[]`.
+```typescript
+  map(funcion: (elemento: T) => T) {
+    let nuevaLista: T[] = [];
+
+    for (let i = 0; i < this._tamaño; i++) {
+      nuevaLista[i] = funcion(this._lista[i]);
+    } 
+
+    return new Lista<T>(nuevaLista);
+  }
+```
+
+El sexto método `reduce`, reduce cada elemento de la lista al acumalador utilizando una función.
+Para ello, pasamos por parametro un *callback*, correspondiente a la función acumuladora, y un valor acumulador inicial. En un bucle para cada elemento, igualamos el acumulador al valor que retorna la función con el valor actual del acumulador.
+```typescript
+  reduce(acumulador: T, funcion: (acumulador: T, elemento: T) => T) {
+    for (let i = 0; i < this._tamaño; i++) {
+      acumulador = funcion(acumulador, this._lista[i]);
+    } 
+
+    return acumulador;
+  }
+```
+
+El séptimo método `reverse` retorna una lista con los elementos originales en orden inverso.
+Para ello recorremos la lista en orden inverso y vamos añadiendo elemento a elemento en una nueva lista con el operador `[]`.
+```typescript
+  reverse() {
+    let nuevaLista: T[] = [];
+
+    for (let i = this.tamaño - 1, k = 0; i >= 0; i--, k++) {
+      nuevaLista[k] = this._lista[i];
+    } 
+
+    return new Lista<T>(nuevaLista);
+  }
+```
+
+El último método `forEach`, permite iterar entre los elementos de la lista y realizar la función pasada por parametro a cada elemento. 
+Para ello, pasamos por parametro un *callback*, correspondiente a la función a realizar. Y en un bucle, llamamos a la función con cada elemento.
+```typescript
+  forEach(funcion: (elemento: T, index: number) => void) {
+    for (let i = 0; i < this._tamaño; i++) {
+      funcion(this._lista[i], i);
+    } 
+  }
+}
+```
+
+### Ejercicio 3 - Ampliando la biblioteca musical
+Por problemas de tiempo no he podido realizar la implementacion de este ejercicio.
+
+## Ejercicio Modificación
