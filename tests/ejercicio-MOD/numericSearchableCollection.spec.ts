@@ -22,6 +22,18 @@ describe('Tests para la clase NumericSearchableCollecion', () => {
     expect(collection.collection).to.be.eql([1, 2, 3, 4, 5, 6, 6, 5.3, -2]);
   })
 
+  it('Test que comprueba el método getItem', () => {
+    let collection: NumericSearchableCollection = new NumericSearchableCollection([1, 2, 3, 4, 5, 6, 6, 5.3, -2]);
+
+    expect(collection.getItem(4)).to.be.eql(5);
+    expect(collection.getItem(0)).to.be.eql(1);
+    expect(collection.getItem(6)).to.be.eql(-2);
+    expect(collection.getItem(5)).to.be.eql(5.3);
+
+    expect(collection.getItem(10)).to.be.undefined;
+    expect(collection.getItem(-1)).to.be.undefined;
+  })
+
   it('Test que comprueba el método removeItem', () => {
     let collection: NumericSearchableCollection = new NumericSearchableCollection([1, 2, 3, 4, 5, 6, 6, 5.3, -2]);
 
