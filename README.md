@@ -15,11 +15,11 @@
 - [Bibliografía](#bibliografía)
 
 ## Objetivos de la práctica
-En esta práctica vamos a profundizar en los conceptos explicados en clase, sobre clases e interfaces genericas en TypeScript, y los principios SOLID.
+En esta práctica vamos a profundizar en los conceptos explicados en clase, sobre clases e interfaces genéricas en TypeScript, y los principios SOLID.
 
 ## Ejercicios propuestos
 ### Ejercicio 1 - DSIflix
-Para este ejercicio teniamos que diseñar el modelo de datos de una plataforma de video. En esta existiran colecciones de emisiones concretas para los tipo, pelicula, documental y serie. Por ello lo primero que hice fue diseñar estos tipos. Como parte de los atributos de los tres tipos son similares, generé una clase abstracta `Media` que contendra los atributos generales `nombre, año, director y generos`:
+Para este ejercicio teníamos que diseñar el modelo de datos de una plataforma de video. En esta existirán colecciones de emisiones concretas para los tipos, película, documental y serie. Por ello lo primero que hice fue diseñar estos tipos. Como parte de los atributos de los tres tipos son similares, generé una clase abstracta `Media` que contendrá los atributos generales, `nombre, año, director y generos`:
 ```typescript
 export abstract class Media {
   readonly nombre: string;
@@ -36,7 +36,7 @@ export abstract class Media {
 }
 ```
 
-A continuación, creamos las clases concretas `Pelicula`, que heredará de `Media` y añadira los atributos `duracion y actores`: 
+A continuación, creamos las clases concretas `Pelicula`, que heredará de `Media` y añadirá los atributos, `duracion y actores`: 
 ```typescript
 export class Pelicula extends Media {
   readonly duracion: number;
@@ -59,7 +59,7 @@ export class Pelicula extends Media {
 }
 ```
 
-La clase `Serie`, que heredará de `Media` y añadira los atributos `numeroTemporadas y numeroEpisodiosTotal`: 
+La clase `Serie`, que heredará de `Media` y añadirá los atributos, `numeroTemporadas y numeroEpisodiosTotal`: 
 ```typescript
 export class Serie extends Media {
   readonly numeroTemporadas: number;
@@ -73,7 +73,7 @@ export class Serie extends Media {
 }
 ```
 
-La clase `Documental`, que heredará de `Media` y añadira los atributos `biografico y duracion`: 
+La clase `Documental`, que heredará de `Media` y añadirá los atributos, `biografico y duracion`: 
 ```typescript
 export class Documental extends Media {
   readonly biografico: boolean;
@@ -87,7 +87,7 @@ export class Documental extends Media {
 }
 ```
 
-Una vez que tenemos ya los tipos de datos a contener en las diferentes colecciones, vamos a definir las interfaces genericas que especifican los métodos con los que deberían contar las colecciones de emisiones. Para ello, y para cumplir con el cuarto principio SOLID, he definido dos interfaces genericas, `StreamableSearchable` que contendra los métodos comunes de busqueda, y `StreamableModify` que contendra los métodos para la modificacion de las colecciones.
+Una vez que tenemos ya los tipos de datos a contener en las diferentes colecciones, vamos a definir las interfaces genéricas que especifican los métodos con los que deberían contar las colecciones de emisiones. Para ello, y para cumplir con el cuarto principio SOLID, he definido dos interfaces genéricas, `StreamableSearchable` que contendrá los métodos comunes de búsqueda, y `StreamableModify` que contendrá los métodos para la modificación de las colecciones.
 
 ```typeScript
 export interface StreamableSearchable<T> {
@@ -104,7 +104,7 @@ export interface StreamableModify<T> {
 }
 ```
 
-Ahora definimos la clase abstracta `BasicStreamableCollection`, que sera de tipo generico restringido a los tipos `(Serie | Pelicula | Documental)` y que implementara las interfaces genericas `StreamableSearchable<T>` y `StreamableModify<T>`. El unico atributo de esta clase sera la propia colección de elementos de tipo generico `T`.
+Ahora definimos la clase abstracta `BasicStreamableCollection`, que será de tipo génerico restringido a los tipos `(Serie | Pelicula | Documental)` y que implementara las interfaces genéricas `StreamableSearchable<T>` y `StreamableModify<T>`. El único atributo de esta clase será la propia colección de elementos de tipo génerico `T`.
 ```typescript
 export abstract class BasicStreamableCollection<T extends (Serie | Pelicula | Documental)> implements StreamableSearchable<T>, StreamableModify<T> {
   protected coleccion: T[];
@@ -115,7 +115,7 @@ export abstract class BasicStreamableCollection<T extends (Serie | Pelicula | Do
 ...
 ```
 
-Ahora, definimos los métodos de la interfaz `StreamableSearchable<T>`, en esta interfaz tenemos cuatro métodos de busqueda, por nombre, año, director y genero. Todos los métodos tienen una implementacion practicamente igual, en el caso de los tres primeros métodos de busqueda, se recorre la coleccion con un bucle `forEach` y para cada elemento si el atributo a buscar coincide con el introducido por parametro, entonces lo añadira a la lista final que retornará.
+Ahora, definimos los métodos de la interfaz `StreamableSearchable<T>`, en esta interfaz tenemos cuatro métodos de búsqueda, por nombre, año, director y genero. Todos los métodos tienen una implementación prácticamente igual, en el caso de los tres primeros métodos de búsqueda, se recorre la coleccion con un bucle `forEach` y para cada elemento si el atributo a buscar coincide con el introducido por parámetro, entonces lo añadirá a la lista final que retornará.
 ```typescript
   buscarPorAño(año: number): T[] {
     let resultadoBusqueda: T[] = [];
@@ -154,7 +154,7 @@ Ahora, definimos los métodos de la interfaz `StreamableSearchable<T>`, en esta 
   }
 ```
 
-En el caso de la cuarta busqueda, por genero será un poco diferente, ya que no buscara aquellos medios que tengan exactamente los mismos generos, sino que desde que exista alguno de los generos, lo incluira como encontrado. Por lo que en la condición del predicado lógico, usaremos el método `find` del *Array.prototype*.
+En el caso de la cuarta búsqueda, por genero será un poco diferente, ya que no buscara aquellos medios que tengan exactamente los mismos generos, sino que desde que exista alguno de los generos, lo incluirá como encontrado. Por lo que en la condición del predicado lógico, usaremos el método `find` del *Array.prototype*.
 ```typescript
   buscarPorGenero(genero: string): T[] {
     let resultadoBusqueda: T[] = [];
@@ -185,7 +185,7 @@ export class PeliculaCollection extends BasicStreamableCollection<Pelicula> {
   }
 ```
 
-Lo primero que hacemos en todas las clase concretas es definir los metodos abstractos heredados de la clase `BasicStreamableCollection`, `añadirElemento` y `eliminarElemento`. Estos van a ser iguales para todas las clases, lo unico que cambiara serán los tipos de datos a insertar o eliminar. En el caso del `añadirElemento`, se basara en hacer un `push`, y en el caso de `eliminarElemento`, buscara el indice del elemento a eliminar y lo borrara con el método `splice`.
+Lo primero que hacemos en todas las clases concretas es definir los métodos abstractos heredados de la clase `BasicStreamableCollection`, `añadirElemento` y `eliminarElemento`. Estos van a ser iguales para todas las clases, lo único que cambiara serán los tipos de datos a insertar o eliminar. En el caso del `añadirElemento`, se basará en hacer un `push`, y en el caso de `eliminarElemento`, buscara el indice del elemento a eliminar y lo borrara con el método `splice`.
 ```typescript 
   añadirElemento(elemento: Pelicula): Pelicula[] {
     this.coleccion.push(elemento);
@@ -201,7 +201,7 @@ Lo primero que hacemos en todas las clase concretas es definir los metodos abstr
   }
 ```
 
-En esta clase concreta definimos dos nuevos métodos de busqueda, por duración y por actor, cuyas implementaciones son practicamente iguales a las de `busquedaPorAño` y `busquedaPorGeneros` respectivamente.
+En esta clase concreta definimos dos nuevos métodos de búsqueda, por duración y por actor, cuyas implementaciones son prácticamente iguales a las de `busquedaPorAño` y `busquedaPorGeneros` respectivamente.
 ```typescript
   buscarPorDuracion(tiempo: number) : Pelicula[] {
     let resultadoBusqueda: Pelicula[] = [];
@@ -229,7 +229,7 @@ En esta clase concreta definimos dos nuevos métodos de busqueda, por duración 
 }
 ```
 
-La siguiente clase concreta que implementamos fue, `SerieCollection`, que al igual que `PeliculaCollection`, lo primero que hace es definir los metodos abstractos heredados de la clase `BasicStreamableCollection`, `añadirElemento` y `eliminarElemento`, cuya implementacion es igual a las anteriores clases.
+La siguiente clase concreta que implementamos fue, `SerieCollection`, que al igual que `PeliculaCollection`, lo primero que hace es definir los métodos abstractos heredados de la clase `BasicStreamableCollection`, `añadirElemento` y `eliminarElemento`, cuya implementación es igual a las anteriores clases.
 ```typescript
 export class SerieCollection extends BasicStreamableCollection<Serie> {
   constructor(coleccion: Serie[]) {
@@ -250,7 +250,7 @@ export class SerieCollection extends BasicStreamableCollection<Serie> {
   }
 ```
 
-Al igual que en la anterior clase concreta, definimos dos nuevos métodos de busqueda, por número de temporadas y por número de episodios totales, cuyas implementaciones son practicamente iguales a las de `busquedaPorAño`.
+Al igual que en la anterior clase concreta, definimos dos nuevos métodos de búsqueda, por número de temporadas y por número de episodios totales, cuyas implementaciones son prácticamente iguales a las de `busquedaPorAño`.
 ```typescript
   buscarPorNumeroTemporadas(temporadas: number) : Serie[] {
     let resultadoBusqueda: Serie[] = [];
@@ -278,7 +278,7 @@ Al igual que en la anterior clase concreta, definimos dos nuevos métodos de bus
 }
 ```
 
-La siguiente clase concreta que implementamos fue, `DocumentalCollection`, que al igual que `SerieCollection`, lo primero que hace es definir los metodos abstractos heredados de la clase `BasicStreamableCollection`, `añadirElemento` y `eliminarElemento`, cuya implementacion es igual a las anteriores clases.
+La siguiente clase concreta que implementamos fue, `DocumentalCollection`, que al igual que `SerieCollection`, lo primero que hace es definir los métodos abstractos heredados de la clase `BasicStreamableCollection`, `añadirElemento` y `eliminarElemento`, cuya implementación es igual a las anteriores clases.
 ```typescript
 export class DocumentalCollection extends BasicStreamableCollection<Documental> {
   constructor(coleccion: Documental[]) {
@@ -300,7 +300,7 @@ export class DocumentalCollection extends BasicStreamableCollection<Documental> 
 }
 ```
 
-Al igual que en la anterior clase concreta, definimos dos nuevos métodos de busqueda, por duracion y por si es biografica o no, cuyas implementaciones son practicamente iguales a las de a las busquedas anteriores.
+Al igual que en la anterior clase concreta, definimos dos nuevos métodos de búsqueda, por duracion y por si es biografica o no, cuyas implementaciones son prácticamente iguales a las de a las búsquedas anteriores.
 ```typescript
   buscarPorBiograficos(siNo: boolean) : Documental[] {
     let resultadoBusqueda: Documental[] = [];
@@ -329,7 +329,7 @@ Al igual que en la anterior clase concreta, definimos dos nuevos métodos de bus
 
 
 ### Ejercicio 2 - Implementación de una lista y sus operaciones
-Para este ejercicio hemos implementado una clase generica `Lista<T>`, que modela una lista de elementos de cualquier tipo, para ello los atributos de la clase seran, `lista` que tendra los elemento de tipo T, y `tamaño` que sera el tamaño del array, que obtendremos con el uso de el método `length`, esta es la unica vez que usaremos un método de *Array.prototype*, ya que no vi otra forma de averiguar el tamaño, ya que si usamos, mientras no sea *undefined*, puede existir la posiblidad de que un elemento de dentro sea *undefined*.
+Para este ejercicio hemos implementado una clase generica `Lista<T>`, que modela una lista de elementos de cualquier tipo, para ello los atributos de la clase serán, `lista` que tendrá los elemento de tipo T, y `tamaño` que será el tamaño del array, que obtendremos con el uso de el método `length`, esta es la única vez que usaremos un método de *Array.prototype*, ya que no vi otra forma de averiguar el tamaño, ya que si usamos, mientras no sea *undefined*, puede existir la posibilidad de que un elemento de dentro sea *undefined*.
 ```typescript
 export class Lista<T> {
   private _lista: T[];
@@ -356,7 +356,7 @@ export class Lista<T> {
   }
 ```
 
-El primer método que implementamos es `append` que recibe añadira al final de la lista que lo llame, una segunda lista que se pasa por parametro. 
+El primer método que implementamos es `append` que recibe añadirá al final de la lista que lo llame, una segunda lista que se pasa por parámetro. 
 Para ello se va al final de la primera lista y añade con el operador `[]` individualmente todos los elementos de la otra lista.
 ```typescript
   append(segundaLista: Lista<T>) {
@@ -368,7 +368,7 @@ Para ello se va al final de la primera lista y añade con el operador `[]` indiv
   }
 ```
 
-El segundo método `concatenate`, concatena la lista con la que el método es llamada + un número variable de listas pasadas por parametro.
+El segundo método `concatenate`, concatena la lista con la que el método es llamada + un número variable de listas pasadas por parámetro.
 Para ello inserta individualmente los elementos de la lista que lo llama, y a continuación al final de la lista que resulta vamos añadiendo todas las listas una por una, añadiendo sus elementos uno por uno con el operador `[]`.
 ```typescript
   concatenate(...lists: Lista<T>[]) {
@@ -387,8 +387,8 @@ Para ello inserta individualmente los elementos de la lista que lo llama, y a co
   }
 ```
 
-El tercer método `filter`, a partir de una lista y un predicado logico, si se cumple el predicado se añade a una nueva lista los elementos que cumplen la condición. 
-Para ello, pasamos por parametro un *callback*, correspondiente al predicado lógico a cumplir. Y en un bucle cuando se cumpla la condición del predicado lógico, añadimos el elemento a una nueva lista con el operador `[]`.
+El tercer método `filter`, a partir de una lista y un predicado lógico, si se cumple el predicado se añade a una nueva lista los elementos que cumplen la condición. 
+Para ello, pasamos por parámetro un *callback*, correspondiente al predicado lógico a cumplir. Y en un bucle, cuando se cumpla la condición del predicado lógico, añadimos el elemento a una nueva lista con el operador `[]`.
 ```typescript
   filter(predicado: (elemento: T) => boolean) {
     let nuevaLista: T[] = [];
@@ -411,8 +411,8 @@ El cuarto método `length`, devuelve el número de elementos de la lista. Para e
   }
 ```
 
-El quinto método `map`, modifica una lista según una función recibida por parametro. 
-Para ello, pasamos por parametro un *callback*, correspondiente a la función modificadora. Y en un bucle, llamamos a la función con cada elemento y vamos añadimos el elemento a una nueva lista con el operador `[]`.
+El quinto método `map`, modifica una lista según una función recibida por parámetro. 
+Para ello, pasamos por parámetro un *callback*, correspondiente a la función modificadora. Y en un bucle, llamamos a la función con cada elemento y vamos añadimos el elemento a una nueva lista con el operador `[]`.
 ```typescript
   map(funcion: (elemento: T) => T) {
     let nuevaLista: T[] = [];
@@ -425,8 +425,8 @@ Para ello, pasamos por parametro un *callback*, correspondiente a la función mo
   }
 ```
 
-El sexto método `reduce`, reduce cada elemento de la lista al acumalador utilizando una función.
-Para ello, pasamos por parametro un *callback*, correspondiente a la función acumuladora, y un valor acumulador inicial. En un bucle para cada elemento, igualamos el acumulador al valor que retorna la función con el valor actual del acumulador.
+El sexto método `reduce`, reduce cada elemento de la lista al acumulador utilizando una función.
+Para ello, pasamos por parámetro un *callback*, correspondiente a la función acumuladora, y un valor acumulador inicial. En un bucle para cada elemento, igualamos el acumulador al valor que retorna la función con el valor actual del acumulador.
 ```typescript
   reduce(acumulador: T, funcion: (acumulador: T, elemento: T) => T) {
     for (let i = 0; i < this._tamaño; i++) {
@@ -451,8 +451,8 @@ Para ello recorremos la lista en orden inverso y vamos añadiendo elemento a ele
   }
 ```
 
-El último método `forEach`, permite iterar entre los elementos de la lista y realizar la función pasada por parametro a cada elemento. 
-Para ello, pasamos por parametro un *callback*, correspondiente a la función a realizar. Y en un bucle, llamamos a la función con cada elemento.
+El último método `forEach`, permite iterar entre los elementos de la lista y realizar la función pasada por parámetro a cada elemento. 
+Para ello, pasamos por parámetro un *callback*, correspondiente a la función a realizar. Y en un bucle, llamamos a la función con cada elemento.
 ```typescript
   forEach(funcion: (elemento: T, index: number) => void) {
     for (let i = 0; i < this._tamaño; i++) {
@@ -463,6 +463,6 @@ Para ello, pasamos por parametro un *callback*, correspondiente a la función a 
 ```
 
 ### Ejercicio 3 - Ampliando la biblioteca musical
-Por problemas de tiempo no he podido realizar la implementacion de este ejercicio.
+Por problemas de tiempo no he podido realizar la implementación de este ejercicio.
 
 ## Ejercicio Modificación
