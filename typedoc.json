@@ -1,6 +1,21 @@
 {
   "entryPoints": [
-    "./src/ejercicio-1.ts",
+    "./src/ejercicio-1/streamableSearchable.ts",
+    "./src/ejercicio-1/streamableModify.ts",
+    "./src/ejercicio-1/media.ts",
+    "./src/ejercicio-1/pelicula.ts",
+    "./src/ejercicio-1/serie.ts",
+    "./src/ejercicio-1/documental.ts",
+    "./src/ejercicio-1/basicStreamableCollection.ts",
+    "./src/ejercicio-1/documentalCollection.ts",
+    "./src/ejercicio-1/peliculaCollection.ts",
+    "./src/ejercicio-1/serieCollection.ts",
+    "./src/ejercicio-2/lista.ts",
+    "./src/ejercicio-MOD/collectable.ts",
+    "./src/ejercicio-MOD/searchable.ts",
+    "./src/ejercicio-MOD/searchableCollection.ts",
+    "./src/ejercicio-MOD/numericSearchableCollection.ts",
+    "./src/ejercicio-MOD/stringSearchableCollection.ts"
   ],
   "out": "./docs" 
 }
