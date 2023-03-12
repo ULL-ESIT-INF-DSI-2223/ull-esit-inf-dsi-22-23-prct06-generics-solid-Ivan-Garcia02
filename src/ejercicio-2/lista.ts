@@ -1,4 +1,4 @@
-class Lista<T> {
+export class Lista<T> {
   private _lista: T[];
   private _tamaño: number;
 
@@ -137,25 +137,3 @@ class Lista<T> {
     } 
   }
 }
-
-let lista: Lista<number> = new Lista<number>([1, 2, 3, 4, 5]);
-let lista2: Lista<number> = new Lista<number>([6, 7, 8, 9, 10]);
-lista.append(lista2)
-console.log(lista);
-console.log(lista.concatenate(lista, lista2));
-console.log(lista);
-
-console.log(lista.filter((elemento) => elemento < 5));
-console.log(lista.length());
-console.log(lista);
-
-console.log(lista.map((elemento) => elemento + 5));
-console.log(lista);
-
-console.log(lista.reverse());
-
-console.log(lista.forEach((elemento) => console.log(elemento)));
-console.log(lista.forEach((elemento, index) => console.log(elemento, index)));
-
-let acumulator = 0;
-console.log(lista.reduce(acumulator, (acumulador, elemento) => acumulador + elemento));

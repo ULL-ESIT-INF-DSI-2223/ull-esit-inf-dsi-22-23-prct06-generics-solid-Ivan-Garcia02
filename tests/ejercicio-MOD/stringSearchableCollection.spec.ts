@@ -26,11 +26,11 @@ describe('Tests para la clase NumericSearchableCollecion', () => {
     let collection: StringSearchableCollection = new StringSearchableCollection(["hola", "que", "tal", "estas", "hola", "hola2", "hola3", "", "hola4"]);
 
     expect(collection.getItem(0)).to.be.eql("hola");
-    expect(collection.getItem(2)).to.be.eql("estas");
-    expect(collection.getItem(5)).to.be.eql("");
-    expect(collection.getItem(1)).to.be.eql("tal");
+    expect(collection.getItem(2)).to.be.eql("tal");
+    expect(collection.getItem(5)).to.be.eql("hola2");
+    expect(collection.getItem(1)).to.be.eql("que");
 
-    expect(collection.getItem(8)).to.be.undefined;
+    expect(collection.getItem(11)).to.be.undefined;
     expect(collection.getItem(-1)).to.be.undefined;
   })
 
