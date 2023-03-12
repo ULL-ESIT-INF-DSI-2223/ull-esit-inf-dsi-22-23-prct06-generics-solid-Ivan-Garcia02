@@ -592,3 +592,12 @@ Para el método `search` en ambas clases, recibe un elemento de tipo `T` y busca
     return collectionAux;
   }
 ```
+
+## Conclusiones
+En esta práctica hemos realizado varios ejercicios con los que hemos practicado los conceptos explicados en clase, clases e interfaces genéricas en TypeScript, además de los principios SOLID.
+
+En concreto, he practicado más profundamente la herencia entre clases abstractas genericas, las propiedades de los atributos como *protected* o *readonly*. Y el cubrimiento de código con la heramienta Coveralls.
+
+## Bibliografía
+- [Guion de la práctica](https://ull-esit-inf-dsi-2223.github.io/prct06-generics-solid/)
+- [Apuntes de la asignatura](https://ull-esit-inf-dsi-2223.github.io/typescript-theory/)
